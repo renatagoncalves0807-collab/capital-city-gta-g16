@@ -1,0 +1,13 @@
+{
+  "name": "capital-city-grupo-17",
+  "version": "1.0.0",
+  "description": "Jogo multiplayer Capital City - Grupo 17",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1"
+  }
+}
