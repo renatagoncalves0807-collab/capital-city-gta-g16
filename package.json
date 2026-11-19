@@ -1,0 +1,8 @@
+{
+  "name": "capital-city-g17",
+  "version": "2.0.0",
+  "description": "Capital City - quiz multiplayer inspirado em jogos de mundo aberto",
+  "main": "server.js",
+  "scripts": {"start": "node server.js"},
+  "dependencies": {"express": "^4.21.2", "socket.io": "^4.8.1"}
+}
