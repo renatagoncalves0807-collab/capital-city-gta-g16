@@ -16,66 +16,13 @@ app.use(express.static(path.join(__dirname, "public")));
 app.get("/", (_req, res) => res.sendFile(path.join(__dirname, "public", "index.html")));
 
 const missions = [
-  {
-    place: "DOWNTOWN LOS SANTOS",
-    title: "A entrada na cidade",
-    question: "Quando os sócios realizam entradas de capital em dinheiro, qual é o principal efeito inicial?",
-    answers: [
-      "Aumenta o capital próprio e entra dinheiro na empresa",
-      "Aumenta sempre o passivo",
-      "Diminui o ativo e o capital próprio",
-      "É registado como um gasto"
-    ],
-    correct: 0
-  },
-  {
-    place: "CENTRO DA CIDADE",
-    title: "Acordos de bastidores",
-    question: "Qual é a diferença essencial entre suprimentos e prestações acessórias?",
-    answers: [
-      "São sempre entradas de capital social",
-      "Os suprimentos são empréstimos dos sócios; as prestações acessórias são obrigações adicionais previstas nos termos legais/estatutários",
-      "Os suprimentos são reservas e as prestações acessórias são dividendos",
-      "Não existe qualquer diferença"
-    ],
-    correct: 1
-  },
-  {
-    place: "VINEWOOD HILLS",
-    title: "O valor escondido",
-    question: "Para que servem, em geral, as reservas numa sociedade?",
-    answers: [
-      "Para substituir todas as dívidas",
-      "Para distribuir obrigatoriamente todo o lucro",
-      "Para reter resultados e reforçar o capital próprio, nos termos aplicáveis",
-      "Para eliminar a necessidade de contabilidade"
-    ],
-    correct: 2
-  },
-  {
-    place: "BLAINE COUNTY",
-    title: "Risco no deserto",
-    question: "Quando existe perda de capital social, o que deve a sociedade fazer?",
-    answers: [
-      "Ignorar a situação até ao exercício seguinte",
-      "Analisar a situação e cumprir os deveres legais aplicáveis, incluindo a atuação dos órgãos sociais",
-      "Distribuir mais dividendos",
-      "Eliminar automaticamente todos os ativos"
-    ],
-    correct: 1
-  },
-  {
-    place: "LOS SANTOS À NOITE",
-    title: "A última auditoria",
-    question: "Qual é o objetivo central dos procedimentos de auditoria?",
-    answers: [
-      "Garantir que a empresa nunca terá prejuízos",
-      "Substituir a gestão da empresa",
-      "Obter prova de auditoria suficiente e apropriada para fundamentar conclusões",
-      "Preparar as decisões comerciais dos clientes"
-    ],
-    correct: 2
-  }
+  { place:"DOWNTOWN LOS SANTOS", title:"Entrada de capital", question:"Quando os sócios realizam entradas de capital em dinheiro, qual é o principal efeito?", answers:["Aumenta o capital próprio e entra dinheiro na empresa","Aumenta sempre o passivo","Diminui o ativo e o capital próprio","É registado como um gasto"], correct:0 },
+  { place:"CENTRO DA CIDADE", title:"Suprimentos", question:"O que caracteriza, em regra, um suprimento?", answers:["Uma reserva obrigatória","Um empréstimo do sócio à sociedade","Uma distribuição de dividendos","Uma entrada automática no capital social"], correct:1 },
+  { place:"VINEWOOD HILLS", title:"Prestações acessórias", question:"As prestações acessórias correspondem a…", answers:["Obrigações adicionais dos sócios previstas no contrato de sociedade ou deliberadas nos termos legais","Juros pagos aos bancos","Lucros distribuídos aos trabalhadores","Impostos sobre o rendimento"], correct:0 },
+  { place:"BLAINE COUNTY", title:"Reservas", question:"Qual é a finalidade principal da reserva legal?", answers:["Financiar exclusivamente publicidade","Substituir o capital social","Reforçar a proteção do capital próprio, nos termos legais","Eliminar todas as dívidas"], correct:2 },
+  { place:"LOS SANTOS", title:"Participações próprias", question:"Quando uma sociedade adquire ações ou quotas próprias, estas…", answers:["São sempre consideradas um ativo financeiro comum","Devem ser tratadas contabilisticamente como uma dedução ao capital próprio","Aumentam automaticamente os resultados","Transformam-se em reservas legais"], correct:1 },
+  { place:"MIRROR PARK", title:"Perda de capital", question:"Perante uma perda grave de capital próprio, a sociedade deve…", answers:["Ignorar a situação","Distribuir dividendos adicionais","Analisar a situação e cumprir os deveres legais aplicáveis","Encerrar automaticamente no próprio dia"], correct:2 },
+  { place:"VESPUCCI BEACH", title:"Dividendos antecipados", question:"A distribuição de dividendos antecipados exige, entre outras condições…", answers:["Apenas autorização verbal de um sócio","Que exista dinheiro na conta bancária, independentemente dos resultados","O cumprimento dos requisitos legais e contabilísticos aplicáveis","Que a empresa não tenha capital próprio"], correct:2 }
 ];
 
 const rooms = new Map();
@@ -248,7 +195,13 @@ io.on("connection", socket => {
       player.correct += 1;
     }
     player.elapsed += now - (room.endsAt - QUESTION_TIME);
-    socket.emit("answer-result", { correct, points });
+    const ranked = publicPlayers(room);
+    const position = ranked.findIndex(p => p.id === player.id) + 1;
+    socket.emit("answer-result", {
+      correct, points, position,
+      topFour: ranked.slice(0, 4).map(p => ({ name:p.name, score:p.score })),
+      totalPlayers: ranked.length
+    });
     emitState(room);
     if ([...room.players.values()].every(p => p.answered)) finishQuestion(room);
   });

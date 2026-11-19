@@ -1,7 +1,7 @@
 {
-  "name": "capital-city-grupo-17",
+  "name": "capital-city-grupo-16",
   "version": "1.0.0",
-  "description": "Jogo multiplayer Capital City - Grupo 17",
+  "description": "Capital City Grupo 16 — jogo multiplayer 3D de Capital Próprio",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
