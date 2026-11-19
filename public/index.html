@@ -5,102 +5,25 @@
 <title>Capital City | Grupo 16</title><script src="/socket.io/socket.io.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--gold:#ffd21a;--ink:#090d14;--panel:#101722ed;--line:#ffffff35}
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#080c13;color:#fff;font-family:Inter,Arial}
-button,input{font:inherit}.screen{position:absolute;inset:0;display:none;overflow:auto}.screen.active{display:block}
-.top{position:fixed;z-index:8;top:0;left:0;right:0;padding:14px 5vw;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(#05080ddd,transparent);pointer-events:none}
-.brand{font:900 30px 'Barlow Condensed';letter-spacing:2px;color:var(--gold);text-shadow:0 3px 12px #000}.tag{font-size:10px;font-weight:800;letter-spacing:1.5px;text-align:right;max-width:45vw}
-.panel{position:relative;z-index:2;width:min(650px,90vw);max-height:80vh;overflow:auto;margin:12vh auto 20px;padding:clamp(20px,4vw,34px);background:linear-gradient(135deg,#101722f5,#080c13ed);border:1px solid #ffffff55;box-shadow:0 20px 70px #000b;backdrop-filter:blur(12px)}
-.eyebrow{color:var(--gold);font:800 13px 'Barlow Condensed';letter-spacing:3px}.hero{font:900 clamp(48px,10vw,88px)/.88 'Barlow Condensed';margin:14px 0;text-transform:uppercase;text-shadow:0 5px 18px #0008}.hero em{font-style:normal;color:var(--gold)}p{line-height:1.5;color:#e0e5ec}
-.btn{display:inline-block;border:0;background:var(--gold);color:#101216;padding:14px 22px;margin:6px 5px 6px 0;font:900 18px 'Barlow Condensed';letter-spacing:1px;cursor:pointer;box-shadow:0 5px 0 #a77d00}.btn.alt{background:#263140;color:white;box-shadow:0 5px 0 #111820}
-.field{display:block;width:100%;padding:14px;margin:10px 0;background:#080d15;color:#fff;border:1px solid #8290a4;border-radius:2px}.hidden{display:none!important}
-#home{background:linear-gradient(90deg,#080b12d9,#080b1244),url('/assets/gta-cover.jpg') center/cover no-repeat}
-#lobby,#join,#podium,#final{background:linear-gradient(90deg,#080b12e8,#080b1277),url('/assets/downtown.jpg') center/cover fixed}
-.qr{width:150px;height:150px;object-fit:contain;background:#fff;padding:6px;margin:8px 0}
-.rank{display:grid;grid-template-columns:55px 1fr auto;gap:10px;align-items:center;padding:10px 12px;margin:5px 0;background:#ffffff12;border-left:3px solid var(--gold);font-size:14px}.rank b{color:var(--gold)}.rank span{font-weight:800}
-#worldscreen{background:#10151d}#world{position:absolute;inset:0;background:#29313a}
-.city-scene{position:absolute;inset:0;background:linear-gradient(#17233122,#080c13aa),url('/assets/city-day.jpg') center/cover no-repeat;transition:background-image .4s}
-.city-scene:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#080c13a8,transparent 55%),linear-gradient(90deg,#070b1280,transparent 65%)}
-.road{position:absolute;left:-10%;right:-10%;height:36%;bottom:8%;background:linear-gradient(180deg,#41464d,#20252b);transform:perspective(400px) rotateX(12deg);border-top:5px solid #9b9b8c;box-shadow:0 -10px 25px #0008}
-.road:before{content:"";position:absolute;left:50%;height:100%;border-left:5px dashed #f8e9a2;opacity:.9}
-.hudbox{position:absolute;z-index:3;top:72px;left:14px;background:#080c13dc;padding:12px 15px;border-left:4px solid var(--gold);font-size:12px;max-width:220px}
-.missionbox{position:absolute;z-index:4;top:72px;right:14px;width:min(390px,46vw);padding:16px;background:#080c13ed;border:1px solid #ffffff55;box-shadow:0 10px 35px #0008}
-.missionbox h2{font:800 26px 'Barlow Condensed';margin:5px 0}.timer{font:900 38px 'Barlow Condensed';color:var(--gold)}
-.answers{display:grid;grid-template-columns:1fr 1fr;gap:8px}.answer{padding:12px;text-align:left;background:#202a37;color:#fff;border:1px solid #718095;min-height:52px;font-size:13px;font-weight:700}.answer:disabled{opacity:.45}
-.avatar{position:absolute;z-index:2;bottom:23%;left:48%;width:54px;height:110px;transform:translateX(-50%);filter:drop-shadow(0 8px 8px #0009);transition:left .1s,bottom .1s}
-.avatar .head{position:absolute;top:0;left:15px;width:26px;height:28px;border-radius:50%;background:#b98058;border:3px solid #25201c}
-.avatar .hair{position:absolute;top:-3px;left:14px;width:28px;height:13px;border-radius:16px 16px 5px 5px;background:#171717;z-index:1}
-.avatar .body{position:absolute;top:25px;left:5px;width:46px;height:58px;border-radius:15px 15px 9px 9px;background:linear-gradient(90deg,#162c50,#31558a,#10213d)}
-.avatar .legs{position:absolute;top:76px;left:10px;width:13px;height:31px;background:#20242b;border-radius:5px;box-shadow:17px 0 #20242b}
-.car-art{position:absolute;z-index:2;width:min(310px,45vw);height:auto;right:5%;bottom:18%;filter:drop-shadow(0 12px 14px #000b);border-radius:12px;object-fit:contain}
-.controls{position:absolute;z-index:5;bottom:18px;left:16px;display:flex;gap:10px;align-items:end}.stick{width:100px;height:100px;border-radius:50%;border:2px solid #ffffff99;background:#101923aa;touch-action:none;position:relative}.nub{position:absolute;width:40px;height:40px;left:28px;top:28px;border-radius:50%;background:var(--gold);box-shadow:0 2px 12px #0008}
-.action{padding:12px;background:#101923e8;color:white;border:1px solid #fff9;font-weight:800;border-radius:4px}.actions{display:flex;flex-direction:column;gap:7px}.rightcontrols{position:absolute;z-index:5;right:16px;bottom:24px;display:flex;gap:8px}.round{width:62px;height:62px;border-radius:50%;border:2px solid #fff9;background:#101923dd;color:white;font-weight:900;touch-action:none}
-.hint{position:absolute;z-index:3;bottom:8px;left:50%;transform:translateX(-50%);padding:8px 12px;background:#05080dcc;font-size:11px;white-space:nowrap}
-.result{position:absolute;z-index:9;inset:0;background:#000c;display:grid;place-items:center;padding:16px}.resultcard{width:min(460px,94vw);max-height:90vh;overflow:auto;text-align:center;padding:24px;background:linear-gradient(145deg,#172231,#080c13);border:2px solid var(--gold);box-shadow:0 0 50px #000}.resultcard h2{font:900 clamp(36px,8vw,52px) 'Barlow Condensed';color:var(--gold);margin:8px}.resultcard h3{font:800 18px 'Barlow Condensed';letter-spacing:1px}
-@media(max-width:650px){.tag{font-size:9px}.panel{margin-top:13vh}.missionbox{top:auto;bottom:150px;left:10px;right:10px;width:auto;max-height:42vh;overflow:auto}.answers{grid-template-columns:1fr}.hudbox{top:65px;max-width:180px}.avatar{bottom:25%;left:43%;transform:translateX(-50%) scale(.88)}.car-art{width:48vw;right:2%;bottom:20%}.stick{width:86px;height:86px}.nub{left:22px;top:22px}.rightcontrols{right:10px;bottom:20px}.round{width:55px;height:55px}.hint{max-width:95vw;white-space:normal;text-align:center}.actions .action{font-size:11px;padding:10px 8px}}
-
-/* CAPITAL CITY — layout adaptável para telemóvel e tablet */
-html, body { min-height:100%; height:100%; height:100dvh; }
-#worldscreen { inset:0; width:100%; height:100%; height:100dvh; overflow:hidden; }
-#world { inset:0; width:100%; height:100%; }
-.city-scene { background-position:center center; }
-.missionbox { max-height:calc(100dvh - 150px); overflow-y:auto; overscroll-behavior:contain; }
-@media (max-width:650px) {
-  .top { padding:10px 14px; }
-  .brand { font-size:25px; }
-  .tag { max-width:48vw; font-size:8px; line-height:1.35; }
-  #worldscreen { height:100dvh; }
-  .hudbox { top:58px; left:10px; max-width:155px; padding:8px 10px; font-size:10px; }
-  .missionbox {
-    top:108px; bottom:auto; left:9px; right:9px; width:auto;
-    max-height: min(37dvh, 285px); padding:10px 12px;
-    border-radius:8px; overflow-y:auto;
-  }
-  .missionbox h2 { font-size:21px; margin:3px 0 5px; }
-  .timer { font-size:29px; line-height:1; }
-  #question { font-size:13px; line-height:1.35; margin:4px 0 7px; }
-  .answers { grid-template-columns:1fr 1fr; gap:6px; }
-  .answer { min-height:42px; padding:8px; font-size:11px; line-height:1.25; }
-  .controls { left:10px; bottom:max(12px, env(safe-area-inset-bottom)); gap:7px; }
-  .stick { width:76px; height:76px; }
-  .nub { width:34px; height:34px; left:19px; top:19px; }
-  .actions { gap:5px; }
-  .actions .action { font-size:10px; padding:9px 7px; }
-  .rightcontrols { right:10px; bottom:max(17px, env(safe-area-inset-bottom)); gap:6px; }
-  .round { width:49px; height:49px; font-size:11px; }
-  .hint { bottom:105px; max-width:94vw; white-space:normal; text-align:center; font-size:10px; }
-  .avatar { bottom:22%; }
-  .car-art { bottom:17%; }
-}
-@media (min-width:651px) and (max-width:1100px) {
-  #worldscreen { height:100dvh; overflow:hidden; }
-  .missionbox { top:78px; right:14px; width:min(390px,43vw); max-height:calc(100dvh - 175px); }
-  .hudbox { top:78px; }
-  .controls { bottom:16px; }
-  .rightcontrols { bottom:20px; }
-}
-@media (orientation:landscape) and (max-height:520px) {
-  .top { padding:6px 16px; }
-  .brand { font-size:21px; }
-  .missionbox { top:48px; right:10px; width:min(380px,43vw); max-height:calc(100dvh - 115px); padding:9px; }
-  .missionbox h2 { font-size:20px; }
-  .timer { font-size:27px; }
-  #question { font-size:12px; }
-  .answer { min-height:34px; padding:6px; font-size:10px; }
-  .controls { bottom:8px; left:9px; }
-  .stick { width:65px; height:65px; }
-  .nub { width:30px; height:30px; left:16px; top:16px; }
-  .rightcontrols { bottom:10px; right:10px; }
-  .round { width:45px; height:45px; }
-  .hint { bottom:8px; }
-}
-
+:root{--gold:#ffd21a;--ink:#080d14;--panel:rgba(8,13,21,.91);--line:#ffffff45}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#080d14;color:#fff;font-family:Inter,Arial,sans-serif}button,input{font:inherit}.screen{position:absolute;inset:0;display:none;overflow:hidden}.screen.active{display:block}
+.top{position:fixed;z-index:8;top:0;left:0;right:0;padding:calc(12px + env(safe-area-inset-top)) 22px 12px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(#05080ddd,transparent);pointer-events:none}.brand{font:900 30px 'Barlow Condensed';letter-spacing:2px;color:var(--gold);text-shadow:0 3px 12px #000}.tag{font-size:10px;font-weight:800;letter-spacing:1.5px;text-align:right;max-width:45vw}
+.panel{position:relative;z-index:2;width:min(650px,90vw);max-height:78dvh;overflow:auto;margin:12vh auto 20px;padding:clamp(20px,4vw,34px);background:linear-gradient(135deg,#101722f5,#080c13ed);border:1px solid #ffffff55;box-shadow:0 20px 70px #000b;backdrop-filter:blur(12px)}.eyebrow{color:var(--gold);font:800 13px 'Barlow Condensed';letter-spacing:3px}.hero{font:900 clamp(48px,10vw,88px)/.88 'Barlow Condensed';margin:14px 0;text-transform:uppercase;text-shadow:0 5px 18px #0008}.hero em{font-style:normal;color:var(--gold)}p{line-height:1.5;color:#e0e5ec}.btn{display:inline-block;border:0;background:var(--gold);color:#101216;padding:14px 22px;margin:6px 5px 6px 0;font:900 18px 'Barlow Condensed';letter-spacing:1px;cursor:pointer;box-shadow:0 5px 0 #a77d00}.btn.alt{background:#263140;color:white;box-shadow:0 5px 0 #111820}.field{display:block;width:100%;padding:14px;margin:10px 0;background:#080d15;color:#fff;border:1px solid #8290a4}.hidden{display:none!important}
+#home{background:linear-gradient(90deg,#080b12d9,#080b1244),url('/assets/gta-cover.jpg') center/cover no-repeat}#lobby,#join,#podium,#final{background:linear-gradient(90deg,#080b12e8,#080b1277),url('/assets/downtown.jpg') center/cover no-repeat}.qr{width:150px;height:150px;object-fit:contain;background:#fff;padding:6px;margin:8px 0}.rank{display:grid;grid-template-columns:55px 1fr auto;gap:10px;align-items:center;padding:10px 12px;margin:5px 0;background:#ffffff12;border-left:3px solid var(--gold);font-size:14px}.rank b{color:var(--gold)}.rank span{font-weight:800}
+/* Mundo: um único cenário contínuo, sem faixa cinzenta nem imagens soltas */
+#worldscreen{background:#10151d;isolation:isolate}#world{position:absolute;inset:0;overflow:hidden;background:#17202a}.city-scene{position:absolute;inset:-2%;background:linear-gradient(180deg,rgba(5,9,15,.18),rgba(5,9,15,.12) 48%,rgba(5,9,15,.62)),url('/assets/city-day.jpg') center 55%/cover no-repeat;transform:scale(1.03);transition:background-image .35s,background-position .25s,transform .25s}.city-scene:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.36),transparent 27%,transparent 62%,rgba(0,0,0,.42))}.road,.avatar,.car-art{display:none!important}
+.hudbox{position:absolute;z-index:3;top:calc(72px + env(safe-area-inset-top));left:18px;background:#080c13d9;padding:10px 13px;border-left:4px solid var(--gold);font-size:12px;max-width:220px;box-shadow:0 6px 20px #0006}.missionbox{position:absolute;z-index:6;top:calc(72px + env(safe-area-inset-top));right:18px;width:min(430px,48vw);max-height:calc(100dvh - 230px);overflow:auto;padding:15px 17px;background:rgba(7,12,20,.94);border:1px solid #ffffff70;border-radius:9px;box-shadow:0 14px 42px #000b;backdrop-filter:blur(10px)}.missionbox h2{font:800 27px 'Barlow Condensed';margin:4px 0 2px}.timer{font:900 32px 'Barlow Condensed';color:var(--gold);display:inline-block;margin:0 0 4px}.answers{display:grid;grid-template-columns:1fr 1fr;gap:7px}.answer{padding:10px;text-align:left;background:#202a37;color:#fff;border:1px solid #718095;border-radius:4px;min-height:48px;font-size:13px;font-weight:700}.answer:disabled{opacity:.45}
+.controls{position:absolute;z-index:7;bottom:calc(18px + env(safe-area-inset-bottom));left:18px;display:flex;gap:10px;align-items:end}.stick{width:88px;height:88px;border-radius:50%;border:2px solid #ffffffb0;background:#101923c9;touch-action:none;position:relative;box-shadow:0 4px 20px #0008}.nub{position:absolute;width:36px;height:36px;left:24px;top:24px;border-radius:50%;background:var(--gold);box-shadow:0 2px 12px #0008}.action{padding:11px 13px;background:#101923ed;color:white;border:1px solid #fff9;font-weight:800;border-radius:5px;min-width:132px}.actions{display:flex;flex-direction:column;gap:7px}.rightcontrols{position:absolute;z-index:7;right:18px;bottom:calc(28px + env(safe-area-inset-bottom));display:flex;gap:9px}.round{width:58px;height:58px;border-radius:50%;border:2px solid #fff9;background:#101923e8;color:white;font-weight:900;touch-action:none}.hint{position:absolute;z-index:4;bottom:calc(119px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);padding:8px 13px;background:#05080dcc;border-radius:5px;font-size:12px;text-align:center;max-width:min(440px,80vw)}
+.result{position:absolute;z-index:12;inset:0;background:#000c;display:grid;place-items:center;padding:16px}.resultcard{width:min(460px,94vw);max-height:90dvh;overflow:auto;text-align:center;padding:24px;background:linear-gradient(145deg,#172231,#080c13);border:2px solid var(--gold);box-shadow:0 0 50px #000}.resultcard h2{font:900 clamp(36px,8vw,52px) 'Barlow Condensed';color:var(--gold);margin:8px}.resultcard h3{font:800 18px 'Barlow Condensed';letter-spacing:1px}
+@media(max-width:700px){.top{padding-left:15px;padding-right:15px}.brand{font-size:27px}.tag{font-size:8px;max-width:48vw}.panel{margin-top:14vh}.hudbox{top:calc(66px + env(safe-area-inset-top));left:12px;max-width:170px;font-size:10px;padding:8px 10px}.missionbox{top:calc(65px + env(safe-area-inset-top));left:12px;right:12px;width:auto;max-height:43dvh;padding:12px 13px}.missionbox h2{font-size:23px}.timer{font-size:28px}.answers{grid-template-columns:1fr 1fr;gap:6px}.answer{font-size:11px;min-height:44px;padding:8px}.controls{left:12px;bottom:calc(12px + env(safe-area-inset-bottom));gap:7px}.stick{width:72px;height:72px}.nub{width:32px;height:32px;left:18px;top:18px}.action{min-width:112px;font-size:10px;padding:10px 8px}.rightcontrols{right:12px;bottom:calc(18px + env(safe-area-inset-bottom));gap:6px}.round{width:49px;height:49px;font-size:10px}.hint{bottom:calc(100px + env(safe-area-inset-bottom));font-size:10px;max-width:90vw}.missionbox~.controls{z-index:7}}
+@media(max-width:390px){.answers{grid-template-columns:1fr}.missionbox{max-height:48dvh}.hudbox{max-width:145px}.action{min-width:96px}.stick{width:64px;height:64px}.nub{left:14px;top:14px}}
+@media(min-width:900px){.missionbox{width:420px}.city-scene{background-position:center 58%}}
 </style></head><body>
 <header class="top"><div class="brand">CAPITAL CITY</div><div class="tag">GRUPO 16 · MISSÕES DE CAPITAL PRÓPRIO</div></header>
 <section id="home" class="screen active"><div class="panel"><div class="eyebrow">LOS SANTOS · EDIÇÃO UNIVERSITÁRIA</div><div class="hero">A CIDADE.<br><em>A TUA MISSÃO.</em></div><p>Entra na cidade, junta-te à equipa e testa os teus conhecimentos sobre Capital Próprio. Cada resposta conta — e a rapidez também!</p><button class="btn" id="hostBtn">CRIAR SESSÃO · APRESENTADOR</button><button class="btn alt" id="joinBtn">ENTRAR NO JOGO</button><p class="eyebrow">7 MISSÕES · 15 SEGUNDOS · MULTIJOGADOR</p></div></section>
 <section id="lobby" class="screen"><div class="panel"><div class="eyebrow">SALA MULTIJOGADOR</div><div class="hero">RECRUTA<br><em>A EQUIPA</em></div><p>Código da sala: <b id="roomCode">-----</b></p><img id="qr" class="qr" alt="QR Code para entrar na sala"><div id="lobbyRanks"></div><p id="playerCount">À espera de jogadores...</p><button class="btn" id="startBtn">INICIAR MISSÕES</button></div></section>
 <section id="join" class="screen"><div class="panel"><div class="eyebrow">ACESSO À CIDADE</div><div class="hero">ENTRA NA<br><em>EQUIPA</em></div><input class="field" id="playerName" placeholder="O teu nome" maxlength="18"><input class="field" id="joinCode" placeholder="Código da sala" maxlength="5"><button class="btn" id="enterBtn">ENTRAR NA CIDADE</button><p id="joinNotice"></p></div></section>
-<section id="worldscreen" class="screen"><div id="world"><div class="city-scene" id="cityScene"></div><div class="road"></div><div class="avatar" id="avatar"><div class="hair"></div><div class="head"></div><div class="body"></div><div class="legs"></div></div><img class="car-art" id="carArt" src="/assets/hills-car.jpg" alt="Carro na cidade"></div>
+<section id="worldscreen" class="screen"><div id="world"><div class="city-scene" id="cityScene"></div><div class="road" aria-hidden="true"></div><div class="avatar" id="avatar" aria-hidden="true"></div><img class="car-art" id="carArt" src="/assets/hills-car.jpg" alt="" aria-hidden="true"></div>
 <div class="hudbox"><b>CAPITAL CITY · GRUPO 16</b><div id="worldStatus">Explora Los Santos</div><div>Usa o comando para explorar</div></div>
 <div class="missionbox hidden" id="missionBox"><div class="eyebrow" id="place">MISSÃO</div><h2 id="missionTitle"></h2><div class="timer" id="timer">15</div><div id="question"></div><div class="answers" id="answers"></div></div>
 <div class="controls"><div class="stick" id="stick"><div class="nub" id="nub"></div></div><div class="actions"><button class="action" id="interact">ENTRAR NO CARRO</button><button class="action" id="exitCar">SAIR DO CARRO</button></div></div><div class="rightcontrols"><button class="round" id="accelerate">ACEL.</button><button class="round" id="brake">TRAV.</button></div><div class="hint" id="hint">Explora Los Santos e prepara-te para as missões.</div></section>
@@ -153,7 +76,7 @@ function stickMove(e){const r=stick.getBoundingClientRect(),p=e;let dx=p.clientX
 stick.addEventListener("pointerdown",e=>{stick.setPointerCapture(e.pointerId);stickMove(e)});
 stick.addEventListener("pointermove",e=>{if(e.buttons)stickMove(e)});
 stick.addEventListener("pointerup",()=>{moveX=moveY=0;nub.style.transform="";});
-function move(){if($("worldscreen").classList.contains("active")&&!driving){x=Math.max(12,Math.min(85,x+moveX*.22));y=Math.max(12,Math.min(50,y-moveY*.16));avatar.style.left=x+"%";avatar.style.bottom=y+"%";}requestAnimationFrame(move);}move();
+function move(){if($("worldscreen").classList.contains("active")&&!driving){x=Math.max(35,Math.min(65,x+moveX*.16));y=Math.max(35,Math.min(65,y-moveY*.12));$("cityScene").style.backgroundPosition=`${x}% ${y}%`;}requestAnimationFrame(move);}move();
 $("interact").onclick=()=>{driving=true;$("worldStatus").textContent="A conduzir pela cidade";$("hint").textContent="Acelera e explora Los Santos.";avatar.style.opacity=".15";$("carArt").style.transform="scale(1.08)";};
 $("exitCar").onclick=()=>{driving=false;$("worldStatus").textContent="A explorar Los Santos";avatar.style.opacity="1";$("carArt").style.transform="";};
 $("accelerate").onpointerdown=()=>{if(driving)$("carArt").style.right="12%";};
