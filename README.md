@@ -1,6 +1,6 @@
 # Capital City — Grupo 16
 
-Jogo de perguntas multiplayer inspirado na apresentação visual de jogos de mundo aberto. Inclui cenários fornecidos pela utilizadora, animação de personagem/carro, cinco missões, temporizador de 12 segundos e ranking sincronizado.
+Jogo multiplayer de navegador com cenário 3D em terceira pessoa, personagem controlável, carro conduzível, sete missões sobre Capital Próprio, temporizador de 15 segundos e classificação sincronizada.
 
 ## Executar
 1. `npm install`
@@ -8,8 +8,11 @@ Jogo de perguntas multiplayer inspirado na apresentação visual de jogos de mun
 3. Abrir `http://localhost:3000`
 
 ## Publicar no Render
-Criar um serviço **Web Service** ligado ao repositório GitHub. Build command: `npm install`. Start command: `npm start`. Usar a instância Free, se disponível na conta.
+Build command: `npm install`
+Start command: `npm start`
 
-O apresentador cria a sala e mostra o QR code. Os participantes entram nos seus telemóveis. O apresentador inicia e avança as missões. O estado é guardado em memória no servidor; reiniciar o serviço apaga a sala e a classificação.
+O apresentador cria uma sala e partilha o QR code. Os participantes entram nos seus telemóveis. O jogo usa Three.js através de CDN (é necessária ligação à Internet para carregar o motor 3D) e Socket.IO para o modo multijogador.
 
-As imagens em `public/assets/` foram fornecidas pela utilizadora e são usadas como cenários e elementos visuais. O jogo é uma experiência 2D de navegador com animações, não um motor 3D de mundo aberto.
+Controlos: joystick táctil ou teclas WASD/setas para movimentar o personagem; aproxima-te do carro e toca em «Entrar no carro»; usa «Acel.» e «Trav.» para conduzir. O apresentador inicia e avança as sete missões.
+
+Nota: esta é uma versão 3D leve para navegador, não um jogo AAA. O estado das salas fica em memória no servidor e perde-se se o serviço reiniciar.

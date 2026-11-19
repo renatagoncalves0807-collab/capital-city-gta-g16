@@ -1,9 +1,13 @@
 {
   "name": "capital-city-grupo-16",
   "version": "1.0.0",
-  "private": true,
-  "description": "Capital City - jogo multiplayer do Grupo 16",
+  "description": "Capital City Grupo 16 — jogo multiplayer 3D de Capital Próprio",
   "main": "server.js",
-  "scripts": { "start": "node server.js" },
-  "dependencies": { "express": "^4.21.2", "socket.io": "^4.8.1" }
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1"
+  }
 }
