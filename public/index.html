@@ -38,6 +38,63 @@ button,input{font:inherit}.screen{position:absolute;inset:0;display:none;overflo
 .hint{position:absolute;z-index:3;bottom:8px;left:50%;transform:translateX(-50%);padding:8px 12px;background:#05080dcc;font-size:11px;white-space:nowrap}
 .result{position:absolute;z-index:9;inset:0;background:#000c;display:grid;place-items:center;padding:16px}.resultcard{width:min(460px,94vw);max-height:90vh;overflow:auto;text-align:center;padding:24px;background:linear-gradient(145deg,#172231,#080c13);border:2px solid var(--gold);box-shadow:0 0 50px #000}.resultcard h2{font:900 clamp(36px,8vw,52px) 'Barlow Condensed';color:var(--gold);margin:8px}.resultcard h3{font:800 18px 'Barlow Condensed';letter-spacing:1px}
 @media(max-width:650px){.tag{font-size:9px}.panel{margin-top:13vh}.missionbox{top:auto;bottom:150px;left:10px;right:10px;width:auto;max-height:42vh;overflow:auto}.answers{grid-template-columns:1fr}.hudbox{top:65px;max-width:180px}.avatar{bottom:25%;left:43%;transform:translateX(-50%) scale(.88)}.car-art{width:48vw;right:2%;bottom:20%}.stick{width:86px;height:86px}.nub{left:22px;top:22px}.rightcontrols{right:10px;bottom:20px}.round{width:55px;height:55px}.hint{max-width:95vw;white-space:normal;text-align:center}.actions .action{font-size:11px;padding:10px 8px}}
+
+/* CAPITAL CITY — layout adaptável para telemóvel e tablet */
+html, body { min-height:100%; height:100%; height:100dvh; }
+#worldscreen { inset:0; width:100%; height:100%; height:100dvh; overflow:hidden; }
+#world { inset:0; width:100%; height:100%; }
+.city-scene { background-position:center center; }
+.missionbox { max-height:calc(100dvh - 150px); overflow-y:auto; overscroll-behavior:contain; }
+@media (max-width:650px) {
+  .top { padding:10px 14px; }
+  .brand { font-size:25px; }
+  .tag { max-width:48vw; font-size:8px; line-height:1.35; }
+  #worldscreen { height:100dvh; }
+  .hudbox { top:58px; left:10px; max-width:155px; padding:8px 10px; font-size:10px; }
+  .missionbox {
+    top:108px; bottom:auto; left:9px; right:9px; width:auto;
+    max-height: min(37dvh, 285px); padding:10px 12px;
+    border-radius:8px; overflow-y:auto;
+  }
+  .missionbox h2 { font-size:21px; margin:3px 0 5px; }
+  .timer { font-size:29px; line-height:1; }
+  #question { font-size:13px; line-height:1.35; margin:4px 0 7px; }
+  .answers { grid-template-columns:1fr 1fr; gap:6px; }
+  .answer { min-height:42px; padding:8px; font-size:11px; line-height:1.25; }
+  .controls { left:10px; bottom:max(12px, env(safe-area-inset-bottom)); gap:7px; }
+  .stick { width:76px; height:76px; }
+  .nub { width:34px; height:34px; left:19px; top:19px; }
+  .actions { gap:5px; }
+  .actions .action { font-size:10px; padding:9px 7px; }
+  .rightcontrols { right:10px; bottom:max(17px, env(safe-area-inset-bottom)); gap:6px; }
+  .round { width:49px; height:49px; font-size:11px; }
+  .hint { bottom:105px; max-width:94vw; white-space:normal; text-align:center; font-size:10px; }
+  .avatar { bottom:22%; }
+  .car-art { bottom:17%; }
+}
+@media (min-width:651px) and (max-width:1100px) {
+  #worldscreen { height:100dvh; overflow:hidden; }
+  .missionbox { top:78px; right:14px; width:min(390px,43vw); max-height:calc(100dvh - 175px); }
+  .hudbox { top:78px; }
+  .controls { bottom:16px; }
+  .rightcontrols { bottom:20px; }
+}
+@media (orientation:landscape) and (max-height:520px) {
+  .top { padding:6px 16px; }
+  .brand { font-size:21px; }
+  .missionbox { top:48px; right:10px; width:min(380px,43vw); max-height:calc(100dvh - 115px); padding:9px; }
+  .missionbox h2 { font-size:20px; }
+  .timer { font-size:27px; }
+  #question { font-size:12px; }
+  .answer { min-height:34px; padding:6px; font-size:10px; }
+  .controls { bottom:8px; left:9px; }
+  .stick { width:65px; height:65px; }
+  .nub { width:30px; height:30px; left:16px; top:16px; }
+  .rightcontrols { bottom:10px; right:10px; }
+  .round { width:45px; height:45px; }
+  .hint { bottom:8px; }
+}
+
 </style></head><body>
 <header class="top"><div class="brand">CAPITAL CITY</div><div class="tag">GRUPO 16 · MISSÕES DE CAPITAL PRÓPRIO</div></header>
 <section id="home" class="screen active"><div class="panel"><div class="eyebrow">LOS SANTOS · EDIÇÃO UNIVERSITÁRIA</div><div class="hero">A CIDADE.<br><em>A TUA MISSÃO.</em></div><p>Entra na cidade, junta-te à equipa e testa os teus conhecimentos sobre Capital Próprio. Cada resposta conta — e a rapidez também!</p><button class="btn" id="hostBtn">CRIAR SESSÃO · APRESENTADOR</button><button class="btn alt" id="joinBtn">ENTRAR NO JOGO</button><p class="eyebrow">7 MISSÕES · 15 SEGUNDOS · MULTIJOGADOR</p></div></section>
