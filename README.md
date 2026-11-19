@@ -1,4 +1,4 @@
-# Capital City — Grupo 17
+# Capital City — Grupo 16
 
 Jogo de perguntas multiplayer inspirado na apresentação visual de jogos de mundo aberto. Inclui cenários fornecidos pela utilizadora, animação de personagem/carro, cinco missões, temporizador de 12 segundos e ranking sincronizado.
 
